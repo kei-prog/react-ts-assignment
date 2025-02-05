@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { TabComponent, Tab } from "./components/TabComponent";
 import { UserList } from "./components/UserList";
 import { Form } from "./components/Form";
@@ -66,16 +66,9 @@ function App() {
   const [userList, setUserList] = useState<User[]>(() =>
     generateUserList(USER_LIST),
   );
-  const [displayUserList, setDisplayUserList] = useState<User[]>([]);
-
-  useEffect(() => {
-    if (activeTab === "all") {
-      setDisplayUserList(userList);
-    } else if (activeTab === "students") {
-      setDisplayUserList(userList.filter((user) => user.role === "student"));
-    } else if (activeTab === "mentors") {
-      setDisplayUserList(userList.filter((user) => user.role === "mentor"));
-    }
+  const displayUserList = useMemo(() => {
+    if (activeTab === "all") return userList;
+    return userList.filter((user) => user.role === activeTab);
   }, [activeTab, userList]);
 
   const handleTabClick = (tab: Tab) => {

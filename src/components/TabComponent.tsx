@@ -4,13 +4,13 @@ type Props = {
   handleClick: (tab: Tab) => void;
 };
 
-export type Tab = "all" | "students" | "mentors";
+export type Tab = "all" | "student" | "mentor";
 
 export const TabComponent = ({ handleClick }: Props) => {
   const [activeTab, setActiveTab] = useState<Tab>("all");
 
   const isTab = (value: string | null): value is Tab => {
-    return value === "all" || value === "students" || value === "mentors";
+    return value === "all" || value === "student" || value === "mentor";
   };
 
   const onClick = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -37,9 +37,9 @@ export const TabComponent = ({ handleClick }: Props) => {
         </li>
         <li className="nav-item">
           <a
-            data-tab="students"
-            className={`nav-link ${activeTab === "students" ? "active" : ""}`}
-            aria-current={activeTab === "students" ? "page" : undefined}
+            data-tab="student"
+            className={`nav-link ${activeTab === "student" ? "active" : ""}`}
+            aria-current={activeTab === "student" ? "page" : undefined}
             href="#"
             onClick={onClick}
           >
@@ -48,9 +48,9 @@ export const TabComponent = ({ handleClick }: Props) => {
         </li>
         <li className="nav-item">
           <a
-            data-tab="mentors"
-            className={`nav-link ${activeTab === "mentors" ? "active" : ""}`}
-            aria-current={activeTab === "mentors" ? "page" : undefined}
+            data-tab="mentor"
+            className={`nav-link ${activeTab === "mentor" ? "active" : ""}`}
+            aria-current={activeTab === "mentor" ? "page" : undefined}
             href="#"
             onClick={onClick}
           >

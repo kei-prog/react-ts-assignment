@@ -38,8 +38,8 @@ const MENTOR_COLUMNS: (keyof User)[] = [
 ];
 
 const SORTABLE_COLUMNS: Record<Tab, (keyof User)[]> = {
-  students: ["studyMinutes", "score"],
-  mentors: ["experienceDays"],
+  student: ["studyMinutes", "score"],
+  mentor: ["experienceDays"],
   all: [],
 };
 
@@ -55,8 +55,8 @@ export const UserList = ({
   const columnsByTab: Record<Tab, (keyof User)[]> = useMemo(
     () => ({
       all: [...COMMON_COLUMNS, ...STUDENT_COLUMNS, ...MENTOR_COLUMNS],
-      students: [...COMMON_COLUMNS, ...STUDENT_COLUMNS],
-      mentors: [...COMMON_COLUMNS, ...MENTOR_COLUMNS],
+      student: [...COMMON_COLUMNS, ...STUDENT_COLUMNS],
+      mentor: [...COMMON_COLUMNS, ...MENTOR_COLUMNS],
     }),
     [],
   );
