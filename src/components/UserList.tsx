@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { User } from "../data/users";
 import { Tab } from "./TabComponent";
 
@@ -7,6 +7,33 @@ type Props = {
   handleSortByKey: (key: keyof User, isAscending: boolean) => void;
   filteredUserList: User[];
 };
+
+const COMMON_COLUMNS: (keyof User)[] = [
+  "name",
+  "role",
+  "email",
+  "age",
+  "postCode",
+  "phone",
+  "hobbies",
+  "url",
+];
+
+const STUDENT_COLUMNS: (keyof User)[] = [
+  "studyMinutes",
+  "taskCode",
+  "studyLangs",
+  "score",
+  "availableMentors",
+];
+
+const MENTOR_COLUMNS: (keyof User)[] = [
+  "experienceDays",
+  "useLangs",
+  "availableStartCode",
+  "availableEndCode",
+  "availableStudents",
+];
 
 export const UserList = ({
   activeTab,
@@ -19,55 +46,20 @@ export const UserList = ({
   const [isAscendingByExperienceDay, setIsAscendingByExperienceDay] =
     useState(false);
   const [displayColumns, setDisplayColumns] = useState<(keyof User)[]>([]);
-  const commonColumns: (keyof User)[] = useMemo(
-    () => [
-      "name",
-      "role",
-      "email",
-      "age",
-      "postCode",
-      "phone",
-      "hobbies",
-      "url",
-    ],
-    [],
-  );
-
-  const studentColumns: (keyof User)[] = useMemo(
-    () => [
-      "studyMinutes",
-      "taskCode",
-      "studyLangs",
-      "score",
-      "availableMentors",
-    ],
-    [],
-  );
-
-  const mentorColumns: (keyof User)[] = useMemo(
-    () => [
-      "experienceDays",
-      "useLangs",
-      "availableStartCode",
-      "availableEndCode",
-      "availableStudents",
-    ],
-    [],
-  );
 
   useEffect(() => {
     if (activeTab === "all") {
       setDisplayColumns([
-        ...commonColumns,
-        ...studentColumns,
-        ...mentorColumns,
+        ...COMMON_COLUMNS,
+        ...STUDENT_COLUMNS,
+        ...MENTOR_COLUMNS,
       ]);
     } else if (activeTab === "students") {
-      setDisplayColumns([...commonColumns, ...studentColumns]);
+      setDisplayColumns([...COMMON_COLUMNS, ...STUDENT_COLUMNS]);
     } else if (activeTab === "mentors") {
-      setDisplayColumns([...commonColumns, ...mentorColumns]);
+      setDisplayColumns([...COMMON_COLUMNS, ...MENTOR_COLUMNS]);
     }
-  }, [activeTab, commonColumns, studentColumns, mentorColumns]);
+  }, [activeTab]);
 
   return (
     <>
