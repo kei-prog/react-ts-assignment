@@ -8,6 +8,8 @@ type Props = {
   filteredUserList: User[];
 };
 
+type SortState = Partial<Record<keyof User, boolean>>;
+
 const COMMON_COLUMNS: (keyof User)[] = [
   "name",
   "role",
@@ -35,17 +37,20 @@ const MENTOR_COLUMNS: (keyof User)[] = [
   "availableStudents",
 ];
 
+const SORTABLE_COLUMNS: Record<Tab, (keyof User)[]> = {
+  students: ["studyMinutes", "score"],
+  mentors: ["experienceDays"],
+  all: [],
+};
+
 export const UserList = ({
   activeTab,
   handleSortByKey,
   filteredUserList,
 }: Props) => {
-  const [isAscendingByStudyMinute, setIsAscendingByStudyMinute] =
-    useState(false);
-  const [isAscendingByScore, setIsAscendingByScore] = useState(false);
-  const [isAscendingByExperienceDay, setIsAscendingByExperienceDay] =
-    useState(false);
   const [displayColumns, setDisplayColumns] = useState<(keyof User)[]>([]);
+
+  const [sortState, setSortState] = useState<SortState>({});
 
   const columnsByTab: Record<Tab, (keyof User)[]> = useMemo(
     () => ({
@@ -55,6 +60,14 @@ export const UserList = ({
     }),
     [],
   );
+
+  const handleSort = (key: keyof User) => {
+    if (SORTABLE_COLUMNS[activeTab].includes(key)) {
+      const newIsAscending = !sortState[key];
+      setSortState({ ...sortState, [key]: newIsAscending });
+      handleSortByKey(key, newIsAscending);
+    }
+  };
 
   useEffect(() => {
     setDisplayColumns(columnsByTab[activeTab]);
@@ -66,25 +79,7 @@ export const UserList = ({
         <thead>
           <tr>
             {displayColumns.map((key, index) => (
-              <th
-                key={index}
-                scope="col"
-                onClick={() => {
-                  if (key === "studyMinutes" && activeTab === "students") {
-                    handleSortByKey(key, !isAscendingByStudyMinute);
-                    setIsAscendingByStudyMinute(!isAscendingByStudyMinute);
-                  } else if (key === "score" && activeTab === "students") {
-                    handleSortByKey(key, !isAscendingByScore);
-                    setIsAscendingByScore(!isAscendingByScore);
-                  } else if (
-                    key === "experienceDays" &&
-                    activeTab === "mentors"
-                  ) {
-                    handleSortByKey(key, !isAscendingByExperienceDay);
-                    setIsAscendingByExperienceDay(!isAscendingByExperienceDay);
-                  }
-                }}
-              >
+              <th key={index} scope="col" onClick={() => handleSort(key)}>
                 {key}
               </th>
             ))}
