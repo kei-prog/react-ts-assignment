@@ -4,27 +4,28 @@ import { User } from "../data/users";
 type Role = "student" | "mentor";
 type FormProps = { onSubmit: (formData: User) => void };
 
+const initialFormData = {
+  id: 0,
+  name: "",
+  role: "student",
+  email: "",
+  age: 0,
+  postCode: "",
+  phone: "",
+  hobbies: [],
+  url: "",
+  studyMinutes: 0,
+  taskCode: 0,
+  studyLangs: [],
+  score: 0,
+  experienceDays: 0,
+  useLangs: [],
+  availableStartCode: 0,
+  availableEndCode: 0,
+};
+
 export const Form = ({ onSubmit }: FormProps) => {
   const [role, setRole] = useState<Role>("student");
-  const initialFormData = {
-    id: 0,
-    name: "",
-    role: "student",
-    email: "",
-    age: 0,
-    postCode: "",
-    phone: "",
-    hobbies: [],
-    url: "",
-    studyMinutes: 0,
-    taskCode: 0,
-    studyLangs: [],
-    score: 0,
-    experienceDays: 0,
-    useLangs: [],
-    availableStartCode: 0,
-    availableEndCode: 0,
-  };
   const [formData, setFormData] = useState<User>(initialFormData);
 
   const handleSubmit = (e: MouseEvent<HTMLButtonElement>) => {
