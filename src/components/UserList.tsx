@@ -74,27 +74,25 @@ export const UserList = ({
   }, [activeTab, columnsByTab]);
 
   return (
-    <>
-      <table className="table">
-        <thead>
-          <tr>
-            {displayColumns.map((key, index) => (
-              <th key={index} scope="col" onClick={() => handleSort(key)}>
-                {key}
-              </th>
+    <table className="table">
+      <thead>
+        <tr>
+          {displayColumns.map((key, index) => (
+            <th key={index} scope="col" onClick={() => handleSort(key)}>
+              {key}
+            </th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {filteredUserList.map((user, index) => (
+          <tr key={index}>
+            {displayColumns.map((column, index) => (
+              <td key={index}>{user[column]}</td>
             ))}
           </tr>
-        </thead>
-        <tbody>
-          {filteredUserList.map((user, index) => (
-            <tr key={index}>
-              {displayColumns.map((column, index) => (
-                <td key={index}>{user[column]}</td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </>
+        ))}
+      </tbody>
+    </table>
   );
 };
