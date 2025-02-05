@@ -71,9 +71,11 @@ export const Form = ({ onSubmit }: FormProps) => {
   };
 
   const handleChange =
-    <K extends keyof User>(key: K, converter?: (value: string) => User[K]) =>
+    <K extends keyof User>(key: K, converter?: (value: User[K]) => User[K]) =>
     (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-      const value = converter ? converter(e.target.value) : e.target.value;
+      const value = converter
+        ? converter(e.target.value as User[K])
+        : (e.target.value as User[K]);
       setFormData({ ...formData, [key]: value });
     };
 
