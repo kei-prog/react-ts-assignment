@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { User } from "../data/users";
 import { Tab } from "./TabComponent";
 
@@ -47,19 +47,18 @@ export const UserList = ({
     useState(false);
   const [displayColumns, setDisplayColumns] = useState<(keyof User)[]>([]);
 
+  const columnsByTab: Record<Tab, (keyof User)[]> = useMemo(
+    () => ({
+      all: [...COMMON_COLUMNS, ...STUDENT_COLUMNS, ...MENTOR_COLUMNS],
+      students: [...COMMON_COLUMNS, ...STUDENT_COLUMNS],
+      mentors: [...COMMON_COLUMNS, ...MENTOR_COLUMNS],
+    }),
+    [],
+  );
+
   useEffect(() => {
-    if (activeTab === "all") {
-      setDisplayColumns([
-        ...COMMON_COLUMNS,
-        ...STUDENT_COLUMNS,
-        ...MENTOR_COLUMNS,
-      ]);
-    } else if (activeTab === "students") {
-      setDisplayColumns([...COMMON_COLUMNS, ...STUDENT_COLUMNS]);
-    } else if (activeTab === "mentors") {
-      setDisplayColumns([...COMMON_COLUMNS, ...MENTOR_COLUMNS]);
-    }
-  }, [activeTab]);
+    setDisplayColumns(columnsByTab[activeTab]);
+  }, [activeTab, columnsByTab]);
 
   return (
     <>
