@@ -7,35 +7,58 @@ import { User, USER_LIST } from "./data/users";
 function App() {
   const [activeTab, setActiveTab] = useState<Tab>("all");
   const generateUserList = (userList: User[]) => {
+    const isInRange = (value: number, start: number, end: number) =>
+      value > start && value < end;
+
+    const findMatchingUsers = (
+      users: User[],
+      role: "student" | "mentor",
+      condition: (user: User, currentUser: User) => boolean,
+      currentUser: User,
+    ) =>
+      users
+        .filter((u) => u.role === role && condition(u, currentUser))
+        .map((u) => u.name)
+        .join(",");
+
     return userList.map((user) => {
       if (user.role === "student" && user.taskCode != null) {
-        const mentorNames = userList
-          .filter(
-            (u) =>
-              u.role === "mentor" &&
-              u.availableStartCode != null &&
-              u.availableEndCode != null &&
-              user.taskCode! > u.availableStartCode! &&
-              user.taskCode! < u.availableEndCode!,
-          )
-          .map((mentor) => mentor.name);
-        return { ...user, availableMentors: mentorNames.join(",") };
-      } else if (
+        const availableMentors = findMatchingUsers(
+          userList,
+          "mentor",
+          (mentor, student) =>
+            mentor.availableStartCode != null &&
+            mentor.availableEndCode != null &&
+            isInRange(
+              student.taskCode!,
+              mentor.availableStartCode,
+              mentor.availableEndCode,
+            ),
+          user,
+        );
+        return { ...user, availableMentors };
+      }
+
+      if (
         user.role === "mentor" &&
         user.availableStartCode != null &&
         user.availableEndCode != null
       ) {
-        const studentNames = userList
-          .filter(
-            (u) =>
-              u.role === "student" &&
-              u.taskCode != null &&
-              u.taskCode! > user.availableStartCode! &&
-              u.taskCode! < user.availableEndCode!,
-          )
-          .map((student) => student.name);
-        return { ...user, availableStudents: studentNames.join(",") };
+        const availableStudents = findMatchingUsers(
+          userList,
+          "student",
+          (student, mentor) =>
+            student.taskCode != null &&
+            isInRange(
+              student.taskCode,
+              mentor.availableStartCode!,
+              mentor.availableEndCode!,
+            ),
+          user,
+        );
+        return { ...user, availableStudents };
       }
+
       return user;
     });
   };
