@@ -1,10 +1,11 @@
 import { ChangeEvent, useState, MouseEvent } from "react";
 import { User } from "../data/users";
+import { FormField as ForField } from "./FormField";
 
 type Role = "student" | "mentor";
 type FormProps = { onSubmit: (formData: User) => void };
 
-const initialFormData = {
+const initialFormData: User = {
   id: 0,
   name: "",
   role: "student",
@@ -88,18 +89,13 @@ export const Form = ({ onSubmit }: FormProps) => {
   return (
     <form>
       <div className="d-flex">
-        <div className="mb-3">
-          <label htmlFor="nameForm" className="form-label">
-            name
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="nameForm"
-            value={formData.name}
-            onChange={handleChange("name")}
-          />
-        </div>
+        <ForField
+          label="name"
+          id="nameForm"
+          type="text"
+          value={formData.name}
+          onChange={handleChange("name")}
+        />
         <div className="mb-3">
           <label htmlFor="roleForm" className="form-label">
             role
@@ -114,180 +110,110 @@ export const Form = ({ onSubmit }: FormProps) => {
             <option value="mentor">mentor</option>
           </select>
         </div>
-        <div className="mb-3">
-          <label htmlFor="emailForm" className="form-label">
-            email
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            id="emailForm"
-            value={formData.email}
-            onChange={handleChange("email")}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="ageForm" className="form-label">
-            age
-          </label>
-          <input
-            type="number"
-            className="form-control"
-            id="ageForm"
-            value={formData.age}
-            onChange={handleChange("age", Number)}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="postCodeForm" className="form-label">
-            postCode
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="postCodeForm"
-            value={formData.postCode}
-            onChange={handleChange("postCode")}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="phoneForm" className="form-label">
-            phone
-          </label>
-          <input
-            type="tel"
-            className="form-control"
-            id="phoneForm"
-            value={formData.phone}
-            onChange={handleChange("phone")}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="hobbiesForm" className="form-label">
-            hobbies
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            id="hobbiesForm"
-            value={formData.hobbies}
-            onChange={handleChange("hobbies")}
-          />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="urlForm" className="form-label">
-            url
-          </label>
-          <input
-            type="url"
-            className="form-control"
-            id="urlForm"
-            value={formData.url}
-            onChange={handleChange("url")}
-          />
-        </div>
+        <ForField
+          label="email"
+          id="emailForm"
+          type="email"
+          value={formData.email}
+          onChange={handleChange("email")}
+        />
+        <ForField
+          label="age"
+          id="ageForm"
+          type="number"
+          value={formData.age}
+          onChange={handleChange("age", Number)}
+        />
+        <ForField
+          label="postCode"
+          id="postCodeForm"
+          type="text"
+          value={formData.postCode}
+          onChange={handleChange("postCode")}
+        />
+        <ForField
+          label="phone"
+          id="phoneForm"
+          type="tel"
+          value={formData.phone}
+          onChange={handleChange("phone")}
+        />
+        <ForField
+          label="hobbies"
+          id="hobbiesForm"
+          type="text"
+          value={formData.hobbies}
+          onChange={handleChange("hobbies")}
+        />
+        <ForField
+          label="url"
+          id="urlForm"
+          type="url"
+          value={formData.url}
+          onChange={handleChange("url")}
+        />
         {role === "student" && (
           <>
-            <div className="mb-3">
-              <label htmlFor="studyMinutesForm" className="form-label">
-                studyMinutes
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="studyMinutesForm"
-                value={formData.studyMinutes}
-                onChange={handleChange("studyMinutes", Number)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="taskCodeForm" className="form-label">
-                taskCode
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="taskCodeForm"
-                value={formData.taskCode}
-                onChange={handleChange("taskCode")}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="studylangsForm" className="form-label">
-                studylangs
-              </label>
-              <input
-                type="string"
-                className="form-control"
-                id="studylangsForm"
-                value={formData.studyLangs}
-                onChange={handleChange("studyLangs")}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="scoreForm" className="form-label">
-                score
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="scoreForm"
-                value={formData.score}
-                onChange={handleChange("score", Number)}
-              />
-            </div>
+            <ForField
+              label="studyMinutes"
+              id="studyMinutesForm"
+              type="number"
+              value={formData.studyMinutes}
+              onChange={handleChange("studyMinutes", Number)}
+            />
+            <ForField
+              label="taskCode"
+              id="taskCodeForm"
+              type="text"
+              value={formData.taskCode}
+              onChange={handleChange("taskCode")}
+            />
+            <ForField
+              label="studylangs"
+              id="studylangsForm"
+              type="text"
+              value={formData.studyLangs}
+              onChange={handleChange("studyLangs")}
+            />
+            <ForField
+              label="score"
+              id="scoreForm"
+              type="number"
+              value={formData.score}
+              onChange={handleChange("score", Number)}
+            />
           </>
         )}
         {role === "mentor" && (
           <>
-            <div className="mb-3">
-              <label htmlFor="experienceDaysForm" className="form-label">
-                experienceDays
-              </label>
-              <input
-                type="number"
-                className="form-control"
-                id="experienceDaysForm"
-                value={formData.experienceDays}
-                onChange={handleChange("experienceDays", Number)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="useLangsForm" className="form-label">
-                useLangs
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="useLangsForm"
-                value={formData.useLangs}
-                onChange={handleChange("useLangs")}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="availableStartCodeForm" className="form-label">
-                availableStartCode
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="availableStartCodeForm"
-                value={formData.availableStartCode}
-                onChange={handleChange("availableStartCode")}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="availableEndCodeForm" className="form-label">
-                availableEndCode
-              </label>
-              <input
-                type="text"
-                className="form-control"
-                id="availableEndCodeForm"
-                value={formData.availableEndCode}
-                onChange={handleChange("availableEndCode")}
-              />
-            </div>
+            <ForField
+              label="experienceDays"
+              id="experienceDaysForm"
+              type="number"
+              value={formData.experienceDays}
+              onChange={handleChange("experienceDays", Number)}
+            />
+            <ForField
+              label="useLangs"
+              id="useLangsForm"
+              type="text"
+              value={formData.useLangs}
+              onChange={handleChange("useLangs")}
+            />
+            <ForField
+              label="availableStartCode"
+              id="availableStartCodeForm"
+              type="text"
+              value={formData.availableStartCode}
+              onChange={handleChange("availableStartCode")}
+            />
+            <ForField
+              label="availableEndCode"
+              id="availableEndCodeForm"
+              type="text"
+              value={formData.availableEndCode}
+              onChange={handleChange("availableEndCode")}
+            />
           </>
         )}
       </div>
